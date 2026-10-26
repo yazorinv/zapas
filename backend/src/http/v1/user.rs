@@ -92,8 +92,7 @@ async fn delete_user(
     responses(
         (status = 200, body = UserMeResp),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "User not found (what?)")
     ),
     security(
@@ -120,8 +119,7 @@ async fn me(
     responses(
         (status = 200, body = UserOtherResp),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "User not found")
     ),
     security(
@@ -150,8 +148,7 @@ async fn other_user_by_id(
         (status = 200, body = UserOtherResp),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "User not found")
     ),
     security(
@@ -185,8 +182,7 @@ async fn other_user_by_username(
         (status = 200),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "User not found (what?)"),
     ),
     security(
@@ -216,8 +212,7 @@ async fn change_passwd(
         (status = 200, body = UserMeResp),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "User not found (what?)"),
         (status = 409, body = AppErrJson, description = "Already exists username")
     ),

@@ -75,8 +75,7 @@ pub struct RoomApi;
         (status = 200, body = UuidDto, description = "Room id"),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
     ),
     security(
         ("jwt" = [])
@@ -139,8 +138,7 @@ async fn make(
     responses(
         (status = 200, body = PagRes<RoomDto>),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
     ),
     security(
         ("jwt" = [])
@@ -186,8 +184,7 @@ async fn list_rooms(
     responses(
         (status = 200, body = RoomDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room not found"),
     ),
     security(
@@ -250,8 +247,7 @@ async fn room_delete(
         (status = 200, body = RoomDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room not found"),
     ),
     security(
@@ -301,8 +297,7 @@ async fn upd_profile(
         (status = 200, body = RoomDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room not found"),
     ),
     security(
@@ -350,8 +345,7 @@ async fn upd_timing(
     responses(
         (status = 200, body = UuidDto, description = "Room id"),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
     ),
     security(
         ("jwt" = [])
@@ -394,8 +388,7 @@ async fn join(
         (status = 200, body = TokenData),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room not found"),
     ),
     security(

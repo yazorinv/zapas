@@ -38,8 +38,7 @@ pub struct StorageApi;
     responses(
         (status = 200, body = StorageDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Storage not found"),
     ),
     security(
@@ -81,8 +80,7 @@ async fn get_profile(
     responses(
         (status = 200),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Storage not found"),
     ),
     security(
@@ -118,8 +116,7 @@ async fn delete_storage(
         (status = 200, body = StorageDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Storage not found"),
     ),
     security(
@@ -170,8 +167,7 @@ async fn upd_profile(
         (status = 200, body = StorageDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Storage not found"),
     ),
     security(
@@ -222,8 +218,7 @@ async fn set_timing(
         (status = 200, body = UuidDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room not found"),
     ),
     security(
@@ -277,8 +272,7 @@ pub async fn make(
         (status = 200, body = PagRes<StorageDto>),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
     ),
     security(
         ("jwt" = [])

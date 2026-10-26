@@ -37,8 +37,7 @@ pub struct SseApi;
     responses(
         (status = 200, body = EventMsg, content_type = "text/event-stream"),
         (status = 500, body = AppErrJson, description = "Internal server error"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
     ),
     security(
         ("jwt" = [])

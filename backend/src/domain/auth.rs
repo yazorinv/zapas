@@ -360,7 +360,9 @@ impl JwtService {
     pub fn decode(&self, token: &str) -> Result<AuthToken, AppErr> {
         let token = Self::remove_bearer(token);
 
-        let res = decode(token.as_bytes(), &self.de, &Self::validation())?.claims;
+        let res = decode(token.as_bytes(), &self.de, &Self::validation())
+            .map_err(|_| AppErr::Unauthorized)?
+            .claims;
         Ok(res)
     }
 

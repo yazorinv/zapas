@@ -34,8 +34,7 @@ pub struct TrApi;
         (status = 200, body = UuidDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room or member not found"),
     ),
     security(
@@ -89,8 +88,7 @@ pub async fn new_transaction(
         (status = 200, body = UuidDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room or member not found"),
     ),
     security(
@@ -144,8 +142,7 @@ pub async fn new_credit(
         (status = 200),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Transaction not found"),
     ),
     security(
@@ -190,8 +187,7 @@ async fn delete_transaction(
         (status = 200, body = TransactionDto),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Trasnaction not found"),
     ),
     security(
@@ -237,8 +233,7 @@ async fn get_tr(
         (status = 200, body = PagRes<TransactionDto>),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
     ),
     security(
         ("jwt" = [])
@@ -297,8 +292,7 @@ pub async fn all_transactions(
         (status = 200),
         (status = 500, body = AppErrJson, description = "Internal server error"),
         (status = 400, body = AppErrJson, description = "Invalid any data format (validation error)"),
-        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe deleted or ip changed)"),
-        (status = 403, body = AppErrJson, description = "Invalid or expired token"),
+        (status = 401, body = AppErrJson, description = "Token is missing or not verified (maybe invalid, expired, deleted or ip changed)"),
         (status = 404, body = AppErrJson, description = "Room or member not found"),
     ),
     security(
