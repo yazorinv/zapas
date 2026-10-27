@@ -1,3 +1,4 @@
+mod acc;
 mod auth;
 mod email;
 mod member;
@@ -22,6 +23,7 @@ pub fn router(app: App) -> Router {
     let storage = Router::new().nest("/storage", storage::router(app.clone()));
     let member = Router::new().nest("/member", member::router(app.clone()));
     let tr = Router::new().nest("/transaction", transaction::router(app.clone()));
+    let acc = Router::new().nest("/acc", acc::router(app.clone()));
 
     auth.merge(user)
         .merge(room)
@@ -30,6 +32,7 @@ pub fn router(app: App) -> Router {
         .merge(storage)
         .merge(member)
         .merge(tr)
+        .merge(acc)
 }
 
 #[derive(OpenApi)]
@@ -43,6 +46,7 @@ pub fn router(app: App) -> Router {
         (path = "/storage", api = storage::StorageApi),
         (path = "/member", api = member::MemberApi),
         (path = "/transaction", api = transaction::TrApi),
+        (path = "/acc", api = acc::AccApi),
     )
 )]
 pub struct V1Api;

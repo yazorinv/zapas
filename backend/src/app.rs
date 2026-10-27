@@ -18,6 +18,9 @@ pub struct App {
 
     pub user_repo: crate::repo::user::pg::UserRepoPg,
     pub session_repo: crate::repo::session::pg::SessionRepoPg,
+    pub member_repo: crate::repo::member::pg::MemberRepoPg,
+
+    pub acc_repo: crate::repo::acc::pg::AccRepoPg,
 }
 
 impl App {
@@ -38,6 +41,9 @@ impl App {
 
             user_repo: crate::repo::user::pg::UserRepoPg::new(pool.clone()),
             session_repo: crate::repo::session::pg::SessionRepoPg::new(pool.clone()),
+            member_repo: crate::repo::member::pg::MemberRepoPg::new(pool.clone()),
+
+            acc_repo: crate::repo::acc::pg::AccRepoPg::new(pool.clone()),
         };
 
         res.migration().await?;

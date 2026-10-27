@@ -16,7 +16,7 @@ async fn main() -> Result<(), GlobalErr> {
 
     let app = App::from_env().await?;
 
-    tokio::spawn(background::sse_listener(app.clone()));
+    background::background(app.clone());
     server(app).await?;
 
     Ok(())

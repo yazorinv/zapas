@@ -103,7 +103,7 @@ pub struct Transaction {
 
 /// Описание одной траты.
 #[derive(Clone, Copy)]
-pub struct Purchases {
+pub struct Purchase {
     pub member: Uuid,
 
     pub money: i64,
@@ -173,7 +173,7 @@ pub fn calc_stats(
     mut members: Vec<Uuid>,
     mut portions: Vec<Portion>,
     trs: &[Transaction],
-    mut prs: Vec<Purchases>,
+    mut prs: Vec<Purchase>,
 ) -> Vec<MemberStat> {
     if members.is_empty() {
         return Vec::new();
@@ -327,8 +327,8 @@ mod tests {
         }
     }
 
-    fn create_purchase(member: Uuid, money: i64, is_food: bool, date: NaiveDate) -> Purchases {
-        Purchases {
+    fn create_purchase(member: Uuid, money: i64, is_food: bool, date: NaiveDate) -> Purchase {
+        Purchase {
             member,
             money,
             is_food,
@@ -361,7 +361,7 @@ mod tests {
         assert_eq!(res, vec![stat]);
 
         let x = DateTime::UNIX_EPOCH;
-        prs.push(Purchases {
+        prs.push(Purchase {
             member: id,
             money: 100,
             is_food: true,

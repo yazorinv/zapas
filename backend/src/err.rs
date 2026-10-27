@@ -99,7 +99,7 @@ impl AppErr {
 
             AppErr::Validate(_) | AppErr::CustomValidate(_) => StatusCode::BAD_REQUEST,
 
-            AppErr::InvalidToken => StatusCode::FORBIDDEN,
+            AppErr::InvalidToken => StatusCode::BAD_REQUEST,
 
             AppErr::Unauthorized
             | AppErr::NeedProlong
