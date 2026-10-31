@@ -33,9 +33,8 @@ class TokenAuthenticator @Inject constructor(
 
         val refreshed = runBlocking { authRepository.get().prolong() }
         if (refreshed is Either.Left) {
-            if ((refreshed.value as? AppError.ApiError)?.httpStatus == 401) {
+            if ((refreshed.value as? AppError.ApiError)?.httpStatus == 401)
                 runBlocking { tokenManager.clearTokens(sessionExpired = true) }
-            }
             return null
         }
 
