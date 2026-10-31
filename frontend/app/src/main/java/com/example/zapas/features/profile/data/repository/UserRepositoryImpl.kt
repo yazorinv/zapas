@@ -35,7 +35,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun changePassword(oldPasswd: String, newPasswd: String) =
         networkErrorMapper.safeApiCall {
             userApi.updatePassword(ChangePasswordRequestDto(oldPasswd, newPasswd))
-        }
+        }.map { tokenManager.clearTokens() }
 
     override suspend fun deleteUser(userId: String) = networkErrorMapper.safeApiCall {
         userApi.deleteUser(UuidDto(userId))

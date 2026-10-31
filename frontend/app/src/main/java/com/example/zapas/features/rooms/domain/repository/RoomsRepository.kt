@@ -25,8 +25,8 @@ interface RoomsRepository {
 
     suspend fun updateRoomTimings(
         roomId: String,
-        expiredNotify: String?,
-        reviewInterval: String?
+        expiredNotify: Long?,
+        reviewInterval: Long?
     ): Either<AppError, Room>
 
     suspend fun getInviteToken(roomId: String): Either<AppError, String>

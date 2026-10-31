@@ -69,8 +69,8 @@ class RoomsRepositoryImpl @Inject constructor(
 
     override suspend fun updateRoomTimings(
         roomId: String,
-        expiredNotify: String?,
-        reviewInterval: String?
+        expiredNotify: Long?,
+        reviewInterval: Long?
     ): Either<AppError, Room> =
         networkErrorMapper.safeApiCallMapped {
             roomApi.updateTimings(

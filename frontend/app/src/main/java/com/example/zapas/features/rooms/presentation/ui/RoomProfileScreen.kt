@@ -138,8 +138,8 @@ fun RoomProfileScreen(
 
     if (state.showTimingsDialog && state.room != null) {
         UpdateTimingsDialog(
-            currentExpiredNotify = state.room?.expiredNotify.orEmpty(),
-            currentReviewInterval = state.room?.reviewInterval.orEmpty(),
+            currentExpiredNotify = state.room?.expiredNotify?.toString().orEmpty(),
+            currentReviewInterval = state.room?.reviewInterval?.toString().orEmpty(),
             isLoading = state.isActionLoading,
             onDismiss = { viewModel.setShowTimingsDialog(false) },
             onConfirm = viewModel::updateTimings
@@ -532,8 +532,8 @@ fun RoomBioCard(bio: String) {
 
 @Composable
 fun RoomTimingsCard(
-    expiredNotify: String?,
-    reviewInterval: String?,
+    expiredNotify: Long?,
+    reviewInterval: Long?,
     onEditTimings: () -> Unit
 ) {
     OutlinedCard(
@@ -583,7 +583,7 @@ fun RoomTimingsCard(
                         color = MaterialTheme.colorScheme.outline
                     )
                     Text(
-                        text = expiredNotify.takeIf { !it.isNullOrBlank() } ?: "Не установлено",
+                        text = expiredNotify?.let { "$it с" } ?: "Не установлено",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium
                     )
@@ -609,7 +609,7 @@ fun RoomTimingsCard(
                         color = MaterialTheme.colorScheme.outline
                     )
                     Text(
-                        text = reviewInterval.takeIf { !it.isNullOrBlank() } ?: "Не установлено",
+                        text = reviewInterval?.let { "$it с" } ?: "Не установлено",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium
                     )
@@ -781,6 +781,8 @@ fun UpdateTimingsDialog(
 ) {
     var expiredNotify by remember { mutableStateOf(currentExpiredNotify) }
     var reviewInterval by remember { mutableStateOf(currentReviewInterval) }
+    val expiredValid = expiredNotify.isBlank() || expiredNotify.trim().toLongOrNull() != null
+    val reviewValid = reviewInterval.isBlank() || reviewInterval.trim().toLongOrNull() != null
 
     PreviewableAlertDialog(
         onDismissRequest = onDismiss,
@@ -790,8 +792,10 @@ fun UpdateTimingsDialog(
                 OutlinedTextField(
                     value = expiredNotify,
                     onValueChange = { expiredNotify = it },
-                    label = { Text("Уведомление об истечении") },
-                    placeholder = { Text("Например: 24h, 7d") },
+                    label = { Text("Уведомление об истечении, с") },
+                    isError = !expiredValid,
+                    supportingText = { if (!expiredValid) Text("Введите целое число допустимого размера") },
+                    placeholder = { Text("Число секунд") },
                     singleLine = true,
                     enabled = !isLoading,
                     modifier = Modifier.fillMaxWidth()
@@ -799,8 +803,10 @@ fun UpdateTimingsDialog(
                 OutlinedTextField(
                     value = reviewInterval,
                     onValueChange = { reviewInterval = it },
-                    label = { Text("Интервал проверки") },
-                    placeholder = { Text("Например: 30d") },
+                    label = { Text("Интервал проверки, с") },
+                    isError = !reviewValid,
+                    supportingText = { if (!reviewValid) Text("Введите целое число допустимого размера") },
+                    placeholder = { Text("Число секунд") },
                     singleLine = true,
                     enabled = !isLoading,
                     modifier = Modifier.fillMaxWidth()
@@ -810,7 +816,7 @@ fun UpdateTimingsDialog(
         confirmButton = {
             Button(
                 onClick = { onConfirm(expiredNotify, reviewInterval) },
-                enabled = !isLoading
+                enabled = !isLoading && expiredValid && reviewValid
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
@@ -938,8 +944,8 @@ private object PreviewSample {
         displayName = "Кладовка #1",
         bio = "Главный склад запасов и инструментов на даче.",
         createdAt = "2026-01-15T10:30:00Z",
-        expiredNotify = "24h",
-        reviewInterval = "30d",
+        expiredNotify = 86400L,
+        reviewInterval = 2592000L,
     )
 
     val roomNoBio = room.copy(bio = "")
@@ -1154,8 +1160,8 @@ private fun EditRoomDialogLoadingPreview() {
 private fun UpdateTimingsDialogPreview() {
     ZapasTheme {
         UpdateTimingsDialog(
-            currentExpiredNotify = PreviewSample.room.expiredNotify.orEmpty(),
-            currentReviewInterval = PreviewSample.room.reviewInterval.orEmpty(),
+            currentExpiredNotify = PreviewSample.room.expiredNotify?.toString().orEmpty(),
+            currentReviewInterval = PreviewSample.room.reviewInterval?.toString().orEmpty(),
             isLoading = false,
             onDismiss = {},
             onConfirm = { _, _ -> },
@@ -1168,8 +1174,8 @@ private fun UpdateTimingsDialogPreview() {
 private fun UpdateTimingsDialogLoadingPreview() {
     ZapasTheme {
         UpdateTimingsDialog(
-            currentExpiredNotify = PreviewSample.room.expiredNotify.orEmpty(),
-            currentReviewInterval = PreviewSample.room.reviewInterval.orEmpty(),
+            currentExpiredNotify = PreviewSample.room.expiredNotify?.toString().orEmpty(),
+            currentReviewInterval = PreviewSample.room.reviewInterval?.toString().orEmpty(),
             isLoading = true,
             onDismiss = {},
             onConfirm = { _, _ -> },

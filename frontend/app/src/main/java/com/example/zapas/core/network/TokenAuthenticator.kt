@@ -1,6 +1,7 @@
 package com.example.zapas.core.network
 
 import arrow.core.Either
+import com.example.zapas.core.domain.model.AppError
 import com.example.zapas.core.local.TokenManager
 import com.example.zapas.features.auth.domain.repository.AuthRepository
 import dagger.Lazy
@@ -20,24 +21,26 @@ class TokenAuthenticator @Inject constructor(
     @Synchronized
     override fun authenticate(route: Route?, response: Response): Request? {
         val tokenInRequest = response.request.header("Authorization")
-        val current = runBlocking { tokenManager.getBasicToken()?.value }
-        if (current != null && tokenInRequest != "Bearer $current") {
+        val current = runBlocking { tokenManager.getBasicToken()?.value } ?: return null
+        if (tokenInRequest != "Bearer $current") {
             return response.request.newBuilder().header("Authorization", "Bearer $current").build()
         }
 
         if (response.priorResponse?.code == 401) {
-            runBlocking { tokenManager.clearTokens() }
+            runBlocking { tokenManager.clearTokens(sessionExpired = true) }
             return null
         }
 
-        val refreshed = runBlocking { authRepository.get().prolong() is Either.Right }
-        if (!refreshed) {
-            runBlocking { tokenManager.clearTokens() }
+        val refreshed = runBlocking { authRepository.get().prolong() }
+        if (refreshed is Either.Left) {
+            if ((refreshed.value as? AppError.ApiError)?.httpStatus == 401) {
+                runBlocking { tokenManager.clearTokens(sessionExpired = true) }
+            }
             return null
         }
 
         val newToken = runBlocking { tokenManager.getBasicToken()?.value } ?: run {
-            runBlocking { tokenManager.clearTokens() }
+            runBlocking { tokenManager.clearTokens(sessionExpired = true) }
             return null
         }
         return response.request.newBuilder().header("Authorization", "Bearer $newToken").build()

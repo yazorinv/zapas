@@ -1,5 +1,6 @@
 package com.example.zapas.core.network
 
+import kotlinx.coroutines.CancellationException
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
@@ -29,7 +30,7 @@ class NetworkErrorMapper @Inject constructor(
                 val adapter = moshi.adapter(AppErrJson::class.java)
                 val errorJson = adapter.fromJson(errorBody ?: "")
                 if (errorJson != null) {
-                    AppError.ApiError(errorJson.code, errorJson.msg)
+                    AppError.ApiError(errorJson.code, errorJson.msg, response.code())
                 } else {
                     AppError.ApiError(response.code(), response.message())
                 }
@@ -43,6 +44,8 @@ class NetworkErrorMapper @Inject constructor(
     suspend inline fun <reified T> safeApiCall(crossinline call: suspend () -> Response<T>): Either<AppError, T> {
         return try {
             toEither(call())
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             AppError.NetworkError(e).left()
         }

@@ -11,8 +11,8 @@ class RoomProfileDto(
     @Json(name = "created_at") val createdAt: String,
     @Json(name = "display_name") val displayName: String,
     @Json(name = "id") val id: String,
-    @Json(name = "expired_notify") val expiredNotify: String?,
-    @Json(name = "review_interval") val reviewInterval: String?
+    @Json(name = "expired_notify") val expiredNotify: Long,
+    @Json(name = "review_interval") val reviewInterval: Long
 ) : ResponseDto<Room> {
     override fun toDomain() = Room(
         bio = bio,

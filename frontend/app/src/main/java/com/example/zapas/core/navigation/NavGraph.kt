@@ -1,6 +1,10 @@
 package com.example.zapas.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -14,9 +18,20 @@ import com.example.zapas.features.splash.presentation.ui.SplashScreen
 
 @Composable
 fun ZapasNavGraph(
-    startDestination: Any = Splash
+    startDestination: Any = Splash,
+    sessionViewModel: SessionViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
+    val sessionExpired by sessionViewModel.sessionExpired.collectAsStateWithLifecycle()
+    LaunchedEffect(sessionExpired) {
+        if (sessionExpired) {
+            navController.navigate(Login) {
+                popUpTo(0)
+                launchSingleTop = true
+            }
+            sessionViewModel.acknowledgeSessionExpiry()
+        }
+    }
 
     NavHost(
         navController = navController, startDestination = startDestination
