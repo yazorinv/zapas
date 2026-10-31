@@ -166,8 +166,8 @@ fun RoomScreenPreview() {
                 createdAt = "2006",
                 displayName = "Room${it}",
                 id = it.toString(),
-                expiredNotify = "Whatever",
-                reviewInterval = "Something"
+                expiredNotify = 86400L,
+                reviewInterval = 2592000L
             )
         }),
         uiState = RoomsUiState(),

@@ -13,8 +13,8 @@ class UpdateRoomTimingsUseCase @Inject constructor(
 
     data class Params(
         val roomId: String,
-        val expiredNotify: String?,
-        val reviewInterval: String?
+        val expiredNotify: Long?,
+        val reviewInterval: Long?
     )
 
     override suspend fun invoke(params: Params): Either<AppError, Room> = roomsRepository.updateRoomTimings(

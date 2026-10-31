@@ -5,6 +5,6 @@ data class Room(
     val createdAt: String,
     val displayName: String,
     val id: String,
-    val expiredNotify: String?,
-    val reviewInterval: String?
+    val expiredNotify: Long?,
+    val reviewInterval: Long?
 )

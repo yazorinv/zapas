@@ -19,7 +19,7 @@ interface RoomsApiService {
     @GET("room/all")
     suspend fun rooms(@Query("page") page: Int?, @Query("size") size: Int): Response<RoomsDto>
 
-    @POST("room/invite/{token}")
+    @POST("room/join/{token}")
     suspend fun invite(@Path("token") tokenString: String): Response<UuidDto>
 
     @POST("room/make")

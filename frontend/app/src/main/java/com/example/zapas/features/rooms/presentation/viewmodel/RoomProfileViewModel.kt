@@ -132,14 +132,21 @@ class RoomProfileViewModel @Inject constructor(
     }
 
     fun updateTimings(expiredNotify: String?, reviewInterval: String?) {
+        val expired = expiredNotify?.trim()?.takeIf { it.isNotEmpty() }
+        val review = reviewInterval?.trim()?.takeIf { it.isNotEmpty() }
+        if ((expired != null && expired.toLongOrNull() == null) ||
+            (review != null && review.toLongOrNull() == null)) {
+            _state.update { it.copy(actionError = "Введите целое число допустимого размера") }
+            return
+        }
         val roomId = getRoomId()
         viewModelScope.launch {
             _state.update { it.copy(isActionLoading = true, actionError = null) }
             updateRoomTimingsUseCase(
                 UpdateRoomTimingsUseCase.Params(
                     roomId = roomId,
-                    expiredNotify = expiredNotify?.ifBlank { null },
-                    reviewInterval = reviewInterval?.ifBlank { null })
+                    expiredNotify = expired?.toLong(),
+                    reviewInterval = review?.toLong())
             ).fold(ifLeft = { err ->
                 _state.update {
                     it.copy(

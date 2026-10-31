@@ -30,6 +30,10 @@ fun ProfileScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    LaunchedEffect(state.passwordChangeSuccess) {
+        if (state.passwordChangeSuccess) onLogout()
+    }
+
     val actions = ProfileUiActions(
         onBack = onBack,
         onLogout = { viewModel.logout(onLogout) },
@@ -56,7 +60,12 @@ fun ProfileScreen(
 fun ProfileRootUI(
     state: ProfileState, actions: ProfileUiActions
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(state.error) {
+        state.error?.let { snackbarHostState.showSnackbar(it) }
+    }
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             ProfileTopBar(actions.onBack, actions.onLogout)
         }) { paddingValues ->
