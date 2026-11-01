@@ -22,3 +22,6 @@ data class RoomProfile(val roomId: String)
 
 @Serializable
 object Profile
+
+@Serializable
+data class MemberProfile(val memberId: String)

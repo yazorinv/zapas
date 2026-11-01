@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.zapas.features.auth.presentation.ui.login.LoginScreen
 import com.example.zapas.features.auth.presentation.ui.register.RegisterScreen
+import com.example.zapas.features.members.presentation.ui.MemberProfileScreen
 import com.example.zapas.features.profile.presentation.ui.ProfileScreen
 import com.example.zapas.features.rooms.presentation.ui.CreateRoomScreen
 import com.example.zapas.features.rooms.presentation.ui.RoomProfileScreen
@@ -95,10 +96,17 @@ fun ZapasNavGraph(
 
         composable<RoomProfile> {
             RoomProfileScreen(
+                onNavigateToMember = { memberId ->
+                    navController.navigate(MemberProfile(memberId))
+                },
                 onBack = {
                     navController.popBackStack()
                 }
             )
+        }
+
+        composable<MemberProfile> {
+            MemberProfileScreen(onBack = { navController.popBackStack() })
         }
 
         composable<Profile> {
