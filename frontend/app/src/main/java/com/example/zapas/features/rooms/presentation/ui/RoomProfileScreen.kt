@@ -3,6 +3,7 @@ package com.example.zapas.features.rooms.presentation.ui
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -89,6 +90,7 @@ import com.example.zapas.ui.theme.ZapasTheme
 @Composable
 fun RoomProfileScreen(
     onBack: () -> Unit,
+    onNavigateToMember: (String) -> Unit,
     viewModel: RoomProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -122,7 +124,8 @@ fun RoomProfileScreen(
         onShowEditDialog = { viewModel.setShowEditDialog(true) },
         onShowTimingsDialog = { viewModel.setShowTimingsDialog(true) },
         onGenerateInvite = viewModel::generateInviteToken,
-        onShowDeleteDialog = { viewModel.setShowDeleteDialog(true) }
+        onShowDeleteDialog = { viewModel.setShowDeleteDialog(true) },
+        onNavigateToMember = onNavigateToMember
     )
 
     // Dialogs
@@ -172,7 +175,8 @@ fun RoomProfileScreenContent(
     onShowEditDialog: () -> Unit,
     onShowTimingsDialog: () -> Unit,
     onGenerateInvite: () -> Unit,
-    onShowDeleteDialog: () -> Unit
+    onShowDeleteDialog: () -> Unit,
+    onNavigateToMember: (String) -> Unit = {}
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -339,7 +343,7 @@ fun RoomProfileScreenContent(
                         )
 
                         // Room Members Section
-                        RoomMembersSection(members)
+                        RoomMembersSection(members, onNavigateToMember)
 
                         Spacer(modifier = Modifier.height(8.dp))
 
@@ -621,7 +625,8 @@ fun RoomTimingsCard(
 
 @Composable
 fun RoomMembersSection(
-    members: PagingSourceList<Member>
+    members: PagingSourceList<Member>,
+    onNavigateToMember: (String) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -667,6 +672,7 @@ fun RoomMembersSection(
 
                         if (member != null) {
                             ListItem(
+                                modifier = Modifier.clickable { onNavigateToMember(member.id) },
                                 headlineContent = {
                                     Text(
                                         text = member.displayName.ifBlank { "Без имени" },
