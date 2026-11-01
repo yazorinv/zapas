@@ -1,5 +1,6 @@
 package com.example.zapas.core.di
 
+import com.example.zapas.features.members.data.api.MembersApiService
 import com.example.zapas.BuildConfig
 import com.example.zapas.features.auth.data.api.AuthApiService
 import com.example.zapas.core.network.AuthInterceptor
@@ -23,6 +24,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideMembersApiService(retrofit: Retrofit): MembersApiService =
+        retrofit.create(MembersApiService::class.java)
 
     @Provides
     @Singleton
@@ -65,7 +71,6 @@ object NetworkModule {
         .authenticator(tokenAuthenticator)
         .addInterceptor(logging)
         .build()
-
 
     @Provides
     @Singleton

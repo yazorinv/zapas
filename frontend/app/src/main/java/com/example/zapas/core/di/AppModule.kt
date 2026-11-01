@@ -1,5 +1,8 @@
 package com.example.zapas.core.di
 
+import com.example.zapas.features.members.data.api.MembersApiService
+import com.example.zapas.features.members.data.repository.MembersRepositoryImpl
+import com.example.zapas.features.members.domain.repository.MembersRepository
 import android.content.Context
 import com.example.zapas.features.auth.data.api.AuthApiService
 import com.example.zapas.core.network.AuthInterceptor
@@ -27,6 +30,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideMembersRepository(
+        api: MembersApiService,
+        errorMapper: NetworkErrorMapper
+    ): MembersRepository =
+        MembersRepositoryImpl(api, errorMapper)
 
     @Provides
     @Singleton
