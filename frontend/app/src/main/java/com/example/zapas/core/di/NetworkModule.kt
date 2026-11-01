@@ -1,5 +1,6 @@
 package com.example.zapas.core.di
 
+import com.example.zapas.features.members.data.api.MembersApiService
 import com.example.zapas.BuildConfig
 import com.example.zapas.features.auth.data.api.AuthApiService
 import com.example.zapas.core.network.AuthInterceptor
@@ -66,7 +67,6 @@ object NetworkModule {
         .addInterceptor(logging)
         .build()
 
-
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit =
@@ -102,4 +102,9 @@ object NetworkModule {
     @Singleton
     fun provideRoomsApiService(retrofit: Retrofit): RoomsApiService =
         retrofit.create(RoomsApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMembersApiService(retrofit: Retrofit): MembersApiService =
+        retrofit.create(MembersApiService::class.java)
 }
