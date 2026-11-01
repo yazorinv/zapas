@@ -27,11 +27,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMembersApiService(retrofit: Retrofit): MembersApiService =
-        retrofit.create(MembersApiService::class.java)
-
-    @Provides
-    @Singleton
     fun provideMoshi(): Moshi {
         return Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     }
@@ -107,4 +102,9 @@ object NetworkModule {
     @Singleton
     fun provideRoomsApiService(retrofit: Retrofit): RoomsApiService =
         retrofit.create(RoomsApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMembersApiService(retrofit: Retrofit): MembersApiService =
+        retrofit.create(MembersApiService::class.java)
 }

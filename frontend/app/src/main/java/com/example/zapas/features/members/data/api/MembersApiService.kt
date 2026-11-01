@@ -1,9 +1,11 @@
 package com.example.zapas.features.members.data.api
 
-import com.example.zapas.features.members.data.dto.DefaultPortionsDto
-import com.example.zapas.features.members.data.dto.MemberPortionDto
-import com.example.zapas.features.members.data.dto.OriginMemberDto
-import com.example.zapas.features.members.data.dto.UpdateMemberProfileDto
+import com.example.zapas.features.members.data.dto.request.DefaultPortionsRequestDto
+import com.example.zapas.features.members.data.dto.request.MemberPortionRequestDto
+import com.example.zapas.features.members.data.dto.request.UpdateMemberProfileDto
+import com.example.zapas.features.members.data.dto.response.DefaultPortionsDto
+import com.example.zapas.features.members.data.dto.response.MemberPortionDto
+import com.example.zapas.features.members.data.dto.response.OriginMemberDto
 import com.example.zapas.features.rooms.data.dto.response.MemberDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -31,10 +33,9 @@ interface MembersApiService {
     @POST("member/{member_id}/default_portions")
     suspend fun setDefaultPortions(
         @Path("member_id") memberId: String,
-        @Body request: DefaultPortionsDto
+        @Body request: DefaultPortionsRequestDto
     ): Response<DefaultPortionsDto>
 
-    // Requires the server update that moves the date range from a GET body to query parameters.
     @GET("member/{member_id}/portions")
     suspend fun portions(
         @Path("member_id") memberId: String,
@@ -45,6 +46,6 @@ interface MembersApiService {
     @POST("member/{member_id}/portion")
     suspend fun setPortion(
         @Path("member_id") memberId: String,
-        @Body request: MemberPortionDto
+        @Body request: MemberPortionRequestDto
     ): Response<Unit>
 }

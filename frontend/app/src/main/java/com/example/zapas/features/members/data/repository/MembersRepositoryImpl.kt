@@ -2,9 +2,9 @@ package com.example.zapas.features.members.data.repository
 
 import com.example.zapas.core.network.NetworkErrorMapper
 import com.example.zapas.features.members.data.api.MembersApiService
-import com.example.zapas.features.members.data.dto.DefaultPortionsDto
-import com.example.zapas.features.members.data.dto.MemberPortionDto
-import com.example.zapas.features.members.data.dto.UpdateMemberProfileDto
+import com.example.zapas.features.members.data.dto.request.DefaultPortionsRequestDto
+import com.example.zapas.features.members.data.dto.request.MemberPortionRequestDto
+import com.example.zapas.features.members.data.dto.request.UpdateMemberProfileDto
 import com.example.zapas.features.members.domain.repository.MembersRepository
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ class MembersRepositoryImpl @Inject constructor(
         errorMapper.safeApiCall { api.defaultPortions(memberId) }.map { it.portions }
 
     override suspend fun setDefaultPortions(memberId: String, portions: Long) =
-        errorMapper.safeApiCall { api.setDefaultPortions(memberId, DefaultPortionsDto(portions)) }
+        errorMapper.safeApiCall { api.setDefaultPortions(memberId, DefaultPortionsRequestDto(portions)) }
             .map { it.portions }
 
     override suspend fun getPortions(memberId: String, begin: String, end: String) =
@@ -35,5 +35,5 @@ class MembersRepositoryImpl @Inject constructor(
             .map { records -> records.map { it.toDomain() } }
 
     override suspend fun setPortion(memberId: String, date: String, portions: Long) =
-        errorMapper.safeApiCall { api.setPortion(memberId, MemberPortionDto(date, portions)) }
+        errorMapper.safeApiCall { api.setPortion(memberId, MemberPortionRequestDto(date, portions)) }
 }

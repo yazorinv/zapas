@@ -33,14 +33,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMembersRepository(
-        api: MembersApiService,
-        errorMapper: NetworkErrorMapper
-    ): MembersRepository =
-        MembersRepositoryImpl(api, errorMapper)
-
-    @Provides
-    @Singleton
     fun provideKeyValueStorage(@ApplicationContext context: Context): KeyValueStorage =
         SharedPreferenceStorage(context)
 
@@ -82,4 +74,12 @@ object AppModule {
         roomsApi: RoomsApiService,
         networkErrorMapper: NetworkErrorMapper
     ): RoomsRepository = RoomsRepositoryImpl(roomsApi, networkErrorMapper)
+
+    @Provides
+    @Singleton
+    fun provideMembersRepository(
+        api: MembersApiService,
+        errorMapper: NetworkErrorMapper
+    ): MembersRepository =
+        MembersRepositoryImpl(api, errorMapper)
 }
